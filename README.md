@@ -1,261 +1,489 @@
-# SciCopilot — 前端实现方案
+<h1 align="center">✨ SciCopilot</h1>
 
 <p align="center">
-  <strong>面向软件工程科研训练的垂类智能体平台 · Frontend</strong>
+  🧠 <strong>AI-Powered Vertical Platform for Software Engineering Research & Learning</strong>
+  <br><em>（面向软件工程学科的智能体学习与项目辅助平台）</em>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white" alt="React">
-  <img src="https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white" alt="TypeScript">
-  <img src="https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white" alt="Vite">
-  <img src="https://img.shields.io/badge/TailwindCSS-3-06B6D4?logo=tailwindcss&logoColor=white" alt="TailwindCSS">
-  <img src="https://img.shields.io/badge/ECharts-5-E43961?logo=apache-echarts&logoColor=white" alt="ECharts">
-  <img src="https://img.shields.io/badge/Zustand-4-FF6B6B?logo=zustand&logoColor=white" alt="Zustand">
+  Paper Reading · Code Understanding · Project Planning · AI Agents
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/SCICOPILOT-V0.1%20MVP-6B46C1?style=flat-square&labelColor=374151" alt="SciCopilot v0.1 MVP">
+  <img src="https://img.shields.io/badge/STATUS-INITIAL%20DEVELOPMENT-F59E0B?style=flat-square&labelColor=374151" alt="Initial Development">
+  <img src="https://img.shields.io/badge/LICENSE-MIT-10B981?style=flat-square&labelColor=374151" alt="MIT License">
+  <br>
+  <img src="https://img.shields.io/badge/REACT-18-61DAFB?style=flat-square&labelColor=374151&logo=react" alt="React">
+  <img src="https://img.shields.io/badge/TYPESCRIPT-5-3178C6?style=flat-square&labelColor=374151&logo=typescript" alt="TypeScript">
+  <img src="https://img.shields.io/badge/VITE-5-646CFF?style=flat-square&labelColor=374151&logo=vite" alt="Vite">
+  <img src="https://img.shields.io/badge/TAILWINDCSS-3-06B6D4?style=flat-square&labelColor=374151&logo=tailwindcss" alt="TailwindCSS">
+  <img src="https://img.shields.io/badge/SHADCN%2FUI-latest-000000?style=flat-square&labelColor=374151" alt="shadcn/ui">
+  <img src="https://img.shields.io/badge/ZUSTAND-4-FF6B6B?style=flat-square&labelColor=374151" alt="Zustand">
+  <img src="https://img.shields.io/badge/ECHARTS-5-E43961?style=flat-square&labelColor=374151" alt="ECharts">
+  <img src="https://img.shields.io/badge/D3.JS-7-F9A03C?style=flat-square&labelColor=374151" alt="D3.js">
 </p>
 
 ---
 
-## 目录
+## 📌 Table of Contents
 
-- [项目简介](#项目简介)
-- [核心功能模块](#核心功能模块)
-- [技术栈](#技术栈)
-- [项目结构](#项目结构)
-- [页面路由](#页面路由)
-- [核心组件设计](#核心组件设计)
-- [UI 设计规范](#ui-设计规范)
-- [状态管理](#状态管理)
-- [API 对接规范](#api-对接规范)
-- [本地开发指南](#本地开发指南)
-- [构建与部署](#构建与部署)
-- [开发里程碑](#开发里程碑)
-- [团队分工](#团队分工)
-
----
-
-## 项目简介
-
-**SciPilot** 是一个面向软件工程（SE）科研训练的垂类智能体平台，聚焦 SE 专业学生在科研入门阶段的真实痛点，构建"助研 + 助学"双轮驱动的智能辅助系统。
-
-### 目标用户
-
-| 用户类型 | 特征 | 核心诉求 |
-|---------|------|---------|
-| 初级科研者（研一/本科高年级） | 刚进入课题组，需要快速理解研究方向 | 降低论文阅读门槛、结构化解读、明确研究切入点 |
-| 实验执行者（研一~研二） | 已有研究问题，需要设计实验 | 快速搭建实验框架、避免常见坑、理解结果含义 |
-| 课程学习者（本科 SE 专业） | 正在学习软件工程核心课程 | 概念讲解、案例关联、知识图谱导航 |
-
-### 前端职责
-
-前端负责 SciPilot 的全部用户交互界面，包括五大核心功能模块的可视化呈现、实时对话交互、数据可视化图表渲染、知识图谱探索等。
+- [Overview](#overview)
+- [System Architecture](#system-architecture)
+- [Core Features](#core-features)
+- [Page Routes & Navigation](#page-routes--navigation)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Database Design](#database-design)
+- [Component Architecture](#component-architecture)
+- [API Interaction Flow](#api-interaction-flow)
+- [UI Design System](#ui-design-system)
+- [State Management](#state-management)
+- [API Specification](#api-specification)
+- [Local Development](#local-development)
+- [Build & Deploy](#build--deploy)
+- [Development Milestones](#development-milestones)
+- [Team Responsibilities](#team-responsibilities)
 
 ---
 
-## 核心功能模块
+## Overview
 
-### 模块总览
+**SciCopilot** is an AI-powered vertical platform designed for Software Engineering (SE) students and researchers. It addresses five critical pain points in the research pipeline — from literature review to experimental analysis — by providing structured, traceable, and intelligent agent services.
 
-| # | 功能模块 | 页面路由 | 核心交互 |
-|---|---------|---------|---------|
-| 1 | 论文精读 | `/paper/read` | 上传 PDF → 解析 → 结构化精读报告 → 多轮追问 |
-| 2 | 研究问题拆解 | `/research/decompose` | 输入方向 → 交互式问题树 → 可行性评估 |
-| 3 | 实验路线生成 | `/experiment/roadmap` | 选择研究问题 → 完整实验方案 → 导出 |
-| 4 | 代码复现辅助 | `/code/reproduce` | 输入仓库地址 → 文件树 → 复现步骤 → 错误诊断 |
-| 5 | 结果解释 | `/result/analyze` | 上传 CSV/JSON → 统计分析 → 图表可视化 → 洞察 |
+> **Target Users** （目标用户）
+> - **Junior Researchers** (Graduate Year 1 / Senior Undergrads): Need to quickly understand research directions, read papers, and find entry points.
+> - **Experiment Executors** (Graduate Year 1-2): Need to design experiments, find baselines, reproduce code, and analyze results.
+> - **Course Learners** (SE Undergrads): Need concept explanations, case studies, and knowledge graph navigation.
 
-### 模块 1：论文精读（Paper Deep Read）
+### Value Proposition
 
-用户上传 PDF 或输入论文标题/arXiv ID，系统自动解析并生成结构化精读报告。
+| Pain Point | SciCopilot Solution |
+|-----------|---------------------|
+| Fragmented paper reading | Structured deep-read reports with citation tracing |
+| Vague research directions | Hierarchical research question trees with feasibility scoring |
+| Unsystematic experiment design | Auto-generated roadmaps with baseline & dataset recommendations |
+| Code reproduction failures | Step-by-step reproduction guides with error diagnosis |
+| Unclear result interpretation | Statistical analysis + auto-generated visualizations + writing suggestions |
 
-**精读报告结构：**
+---
+
+## System Architecture
+
+### End-to-End Data Flow
+
+```mermaid
+flowchart TB
+    subgraph Users["👤 Users （用户层）"]
+        U1["Junior Researchers"]
+        U2["Experiment Executors"]
+        U3["Course Learners"]
+    end
+
+    subgraph Frontend["🎨 Frontend （前端层）"]
+        F1["/paper/read<br/>Paper Deep Read"]
+        F2["/research/decompose<br/>Research Question Tree"]
+        F3["/experiment/roadmap<br/>Experiment Planner"]
+        F4["/code/reproduce<br/>Code Assistant"]
+        F5["/result/analyze<br/>Result Analyzer"]
+        F6["/kg/explore<br/>Knowledge Graph"]
+        F7["/dashboard<br/>User Dashboard"]
+    end
+
+    subgraph Backend["⚙️ Backend （后端层）"]
+        B1["API Gateway<br/>FastAPI + JWT"]
+        B2["Paper Service<br/>PDF Parse / Deep Read"]
+        B3["Research Service<br/>KG Query / Tree Gen"]
+        B4["Experiment Service<br/>Roadmap Gen / Baseline Match"]
+        B5["Code Service<br/>Repo Analysis / Error Diagnosis"]
+        B6["Result Service<br/>Stats / Charts / Writing"]
+    end
+
+    subgraph Engine["🧠 Intelligence Engine （智能引擎）"]
+        E1["LangGraph<br/>Workflow Engine"]
+        E2["RAG Retriever<br/>Hybrid Search + Rerank"]
+        E3["Neo4j Query<br/>Knowledge Graph"]
+        E4["Spark API<br/>LLM Generation"]
+    end
+
+    subgraph Data["🗄️ Data Layer （数据层）"]
+        D1["MongoDB<br/>Papers / Sessions"]
+        D2["PostgreSQL<br/>Structured Data"]
+        D3["Chroma<br/>Vector DB"]
+        D4["Neo4j<br/>Knowledge Graph"]
+        D5["MinIO<br/>File Storage"]
+    end
+
+    Users --> Frontend
+    Frontend -->|"REST API + WebSocket"| B1
+    B1 --> B2 & B3 & B4 & B5 & B6
+    B2 & B3 & B4 --> Engine
+    Engine -->|"LLM Call"| E4
+    Engine -->|"Vector Search"| D3
+    Engine -->|"Graph Query"| D4
+    Backend -->|"CRUD"| D1 & D2 & D5
 ```
-1. 研究背景与动机（200 字摘要）
-2. 核心研究问题（明确的问题陈述）
-3. 方法与创新点（技术贡献，标新点编号）
-4. 实验设计（数据集、baseline、评价指标）
-5. 主要结果（关键数据与发现）
-6. 局限性与未来工作（作者提及 + AI 分析）
-7. 对我的启发（面向初学者的学习建议）
+
+### Frontend-Backend Communication Pattern
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant U as User
+    participant F as Frontend (React)
+    participant B as Backend (FastAPI)
+    participant E as Spark API
+    participant DB as Database
+
+    U->>F: Upload PDF / Input Query
+    F->>B: POST /api/v1/papers/upload
+    B->>DB: Save metadata
+    B->>E: Request deep-read generation
+    E-->>B: Stream response chunks
+    B-->>F: WebSocket: stream_chunk
+    F->>F: Render streaming text
+    B-->>F: WebSocket: stream_end
+    F->>U: Display structured report
+    U->>F: Ask follow-up question
+    F->>B: POST /api/v1/papers/{id}/chat
+    B->>E: RAG retrieval + generation
+    E-->>B: Response with citations
+    B-->>F: WebSocket: citation + chunk
+    F->>U: Show reply + clickable citations
 ```
-
-**前端交互要点：**
-- 左侧：论文章节导航树（可点击跳转对应章节）
-- 中间：精读报告渲染（Markdown + LaTeX 公式 + 引用卡片）
-- 右侧：知识图谱关联面板（当前论文涉及的概念节点）
-- 底部：对话输入框（支持针对任意章节追问）
-- 引用溯源：点击引用编号 [1][2] 弹出原文片段 + 来源信息
-
-### 模块 2：研究问题拆解（Research Question Decomposition）
-
-用户输入宽泛的研究方向，系统输出结构化研究问题树。
-
-**前端交互要点：**
-- 交互式树形图（可折叠/展开节点）
-- 节点颜色编码：可行性高 = 绿色，中 = 黄色，低 = 红色
-- 点击节点弹出详情抽屉：相关论文、数据集、工具推荐
-- 支持"收藏子问题"到个人研究计划
-- 一键跳转论文精读（问题树中引用的论文可直接阅读）
-
-### 模块 3：实验路线生成（Experiment Roadmap Generation）
-
-基于研究问题和已精读论文，自动生成完整实验方案。
-
-**前端交互要点：**
-- 步骤时间线（甘特图风格，含预估天数）
-- Baseline 对比卡片（含性能数据、论文链接、GitHub 地址）
-- 数据集信息面板（规模、语言、下载按钮）
-- 评价指标说明（公式、计算方式、适用场景）
-- 工具链推荐列表
-- 一键导出 Markdown / PDF
-
-### 模块 4：代码复现辅助（Code Reproduction Assistant）
-
-用户输入 GitHub 仓库地址，系统自动分析并生成逐步复现指南。
-
-**前端交互要点：**
-- 仓库基本信息卡片（名称、语言、Star 数、描述）
-- 文件树展示（可展开查看目录结构）
-- 依赖列表（包名、版本、用途）
-- 关键文件标注（入口文件、配置文件、核心模块）
-- 复现步骤检查清单（可逐项勾选）
-- 错误诊断对话区（粘贴报错 → 获取修复建议）
-
-### 模块 5：结果解释（Result Interpretation）
-
-用户上传实验结果文件，系统自动解析数据并生成可视化分析。
-
-**前端交互要点：**
-- 拖拽上传区（支持 CSV / JSON / Excel）
-- 自动图表画廊（柱状图、箱线图、折线图、热力图、雷达图）
-- 统计摘要面板（均值、标准差、置信区间、显著性检验结果）
-- 分析文本编辑器（AI 生成 + 人工修改）
-- 论文写作建议（Results 段落草稿、图表标题）
-- 导出图表 PNG/SVG + 分析文本 Markdown
 
 ---
 
-## 技术栈
+## Core Features
 
-| 层级 | 技术选型 | 版本 | 用途 |
-|------|---------|------|------|
-| 框架 | React | 18.x | 组件化 UI 开发 |
-| 语言 | TypeScript | 5.x | 类型安全 |
-| 构建工具 | Vite | 5.x | 快速冷启动、HMR、优化构建 |
-| 样式方案 | TailwindCSS | 3.x | 原子化 CSS |
-| 组件库 | shadcn/ui | latest | 高质量可定制组件 |
-| 状态管理 | Zustand | 4.x | 轻量全局状态管理 |
-| 路由 | React Router | v6 | SPA 路由管理 |
-| HTTP 客户端 | Axios | 1.x | API 请求、拦截器、错误处理 |
-| 实时通信 | WebSocket API | 原生 | 流式对话输出 |
-| 图表可视化 | ECharts | 5.x | 统计图表渲染 |
-| 知识图谱 | D3.js | 7.x | 图谱可视化 |
-| 公式渲染 | KaTeX | latest | LaTeX 数学公式渲染 |
-| Markdown | react-markdown | latest | Markdown 内容渲染 |
-| 表格扩展 | remark-gfm | latest | GFM 表格、任务列表支持 |
-| 代码高亮 | PrismJS / highlight.js | latest | 代码块语法高亮 |
+### Feature Matrix
+
+| # | Module | Route | Input | Output |
+|---|--------|-------|-------|--------|
+| 1 | **Paper Deep Read** | `/paper/read` | PDF / arXiv ID | Structured 7-section report + chat |
+| 2 | **Research Decomposition** | `/research/decompose` | Research direction | Interactive question tree |
+| 3 | **Experiment Roadmap** | `/experiment/roadmap` | Research question | Full experiment plan + baseline |
+| 4 | **Code Reproduction** | `/code/reproduce` | GitHub repo URL | Step-by-step guide + error diagnosis |
+| 5 | **Result Analysis** | `/result/analyze` | CSV / JSON / Excel | Charts + stats + writing suggestions |
+
+### 1. Paper Deep Read （论文精读）
+
+Upload a PDF or enter an arXiv ID. The system parses and generates a structured deep-read report with 7 sections:
+
+```
+1. Research Background & Motivation
+2. Core Research Questions
+3. Method & Innovation Points
+4. Experiment Design
+5. Key Results
+6. Limitations & Future Work
+7. Inspiration for Beginners
+```
+
+**UI Layout:**
+```
+┌────────────┬──────────────────────┬──────────────┐
+│  Section   │   Deep Read Report   │  Knowledge   │
+│  Navigator │   (Markdown + LaTeX  │   Graph      │
+│            │    + Citation Cards) │   Panel      │
+├────────────┼──────────────────────┼──────────────┤
+│ 1. Background│ ## Background       │ ● APR        │
+│ 2. Questions │ ...[1][2]...        │   ├─ GenProg │
+│ 3. Methods   │                     │   └─ SemFix  │
+│ 4. Experiments│ ## Core Questions  │ ● Defects4J  │
+│ 5. Results   │ ...                 │              │
+│ 6. Limits    │ [Citation Popup]    │ [Click node] │
+│ 7. Inspiration│                    │              │
+└────────────┴──────────────────────┴──────────────┘
+│  Chat Input: [Ask a question...] [Send] [Q1] [Q2] │
+└───────────────────────────────────────────────────┘
+```
+
+**Workflow Diagram:**
+
+```mermaid
+stateDiagram-v2
+    [*] --> Upload: PDF / arXiv ID
+    Upload --> Parse: Extract sections
+    Parse --> Chunk: Split by heading
+    Chunk --> Embed: Vectorize chunks
+    Embed --> KG_Link: Link concepts to Neo4j
+    KG_Link --> Generate: LLM deep-read prompt
+    Generate --> Display: Structured report
+    Display --> FollowUp: User asks question
+    FollowUp --> RAG_Search: Retrieve relevant chunks
+    RAG_Search --> Generate: LLM generates answer
+    Generate --> Display
+    Display --> CrossCompare: Multi-paper compare
+    CrossCompare --> Display
+    Display --> [*]
+```
+
+### 2. Research Question Decomposition （研究问题拆解）
+
+Enter a broad research direction. The system outputs a hierarchical research question tree with feasibility scoring.
+
+**Workflow Diagram:**
+
+```mermaid
+stateDiagram-v2
+    [*] --> Input: Enter direction
+    Input --> IntentParse: Keyword extraction
+    IntentParse --> KG_Query: Neo4j concept search
+    KG_Query --> Paper_Retrieve: Vector search Top-10
+    Paper_Retrieve --> Tree_Gen: LLM generates tree
+    Tree_Gen --> Display: Interactive tree
+    Display --> Node_Click: Show detail drawer
+    Node_Click --> Save: Add to research plan
+    Node_Click --> Paper_Read: Jump to deep read
+    Display --> Adjust: User modifies direction
+    Adjust --> IntentParse
+    Save --> [*]
+    Paper_Read --> [*]
+```
+
+### 3. Experiment Roadmap Generation （实验路线生成）
+
+Based on a research question and previously read papers, auto-generate a complete experiment plan.
+
+**Workflow Diagram:**
+
+```mermaid
+flowchart LR
+    A["Research Question"] --> B["Context Collection"]
+    B --> C["KB Retrieval"]
+    C --> D["Baseline<br/>Recommendation"]
+    C --> E["Dataset<br/>Matching"]
+    C --> F["Metric<br/>Lookup"]
+    D & E & F --> G["LLM Roadmap<br/>Generation"]
+    G --> H["Step Timeline"]
+    G --> I["Baseline Cards"]
+    G --> J["Dataset Panel"]
+    G --> K["Toolchain List"]
+    H & I & J & K --> L["Export<br/>Markdown / PDF"]
+```
+
+### 4. Code Reproduction Assistant （代码复现辅助）
+
+Input a GitHub repository URL. The system analyzes structure, extracts dependencies, and generates a reproduction guide.
+
+**Workflow Diagram:**
+
+```mermaid
+flowchart LR
+    A["GitHub URL"] --> B["Clone & Analyze"]
+    B --> C["Dependency Parse"]
+    B --> D["File Tree Extract"]
+    B --> E["Key File Identify"]
+    C & D & E --> F["README + Structure"]
+    F --> G["LLM Guide Generation"]
+    G --> H["Reproduction Steps"]
+    G --> I["Common Issues"]
+    H --> J["Checklist UI"]
+    I --> K["Error Diagnosis Chat"]
+    J --> L["User executes"]
+    L --> M{"Success?"}
+    M -->|No| K
+    M -->|Yes| N["Done"]
+```
+
+### 5. Result Interpretation （结果解释）
+
+Upload experiment result files. Auto-generate statistical summaries, visualizations, and analysis text.
+
+**Supported Charts:**
+
+```mermaid
+flowchart TB
+    subgraph Comparison["Comparison （对比类）"]
+        C1[Bar Chart]
+        C2[Box Plot]
+        C3[Radar Chart]
+    end
+    subgraph Trend["Trend （趋势类）"]
+        T1[Line Chart]
+        T2[Learning Curve]
+        T3[Heatmap]
+    end
+    subgraph Distribution["Distribution （分布类）"]
+        D1[Histogram]
+        D2[Violin Plot]
+    end
+```
 
 ---
 
-## 项目结构
+## Page Routes & Navigation
+
+### Route Tree
+
+```mermaid
+flowchart TD
+    Root["/"] --> Home["🏠 Home<br/>Product Intro"]
+    Root --> Login["🔐 /login"]
+    Root --> Register["📝 /register"]
+    Root --> Dashboard["📊 /dashboard<br/>User Dashboard"]
+
+    Dashboard --> PaperRead["/paper/read<br/>Deep Read"]
+    Dashboard --> PaperLib["/paper/library<br/>Paper Library"]
+    Dashboard --> Research["/research/decompose<br/>Question Tree"]
+    Dashboard --> Experiment["/experiment/roadmap<br/>Roadmap"]
+    Dashboard --> Code["/code/reproduce<br/>Code Assistant"]
+    Dashboard --> Result["/result/analyze<br/>Result Analysis"]
+    Dashboard --> KG["/kg/explore<br/>Knowledge Graph"]
+    Dashboard --> Profile["/profile<br/>User Profile"]
+
+    PaperRead --> Chat["WebSocket Chat<br/>Follow-up Q&A"]
+    Research --> TreeDetail["Node Detail Drawer"]
+    Experiment --> Export["Export MD / PDF"]
+    Code --> Diagnosis["Error Diagnosis Chat"]
+    Result --> ChartGen["Auto Chart Gallery"]
+```
+
+### Route Guard Rules
+
+| Type | Routes | Behavior |
+|------|--------|----------|
+| Public | `/`, `/login`, `/register` | Free access |
+| Protected | `/dashboard`, `/paper/*`, `/research/*`, `/experiment/*`, `/code/*`, `/result/*`, `/kg/*`, `/profile` | Redirect to `/login` if unauthenticated |
+
+---
+
+## Tech Stack
+
+### Frontend Technology Stack
+
+| Layer | Technology | Version | Purpose |
+|-------|-----------|---------|---------|
+| Framework | React | 18.x | Component-based UI |
+| Language | TypeScript | 5.x | Type safety |
+| Build Tool | Vite | 5.x | Fast dev server & optimized builds |
+| Styling | TailwindCSS | 3.x | Utility-first CSS |
+| Components | shadcn/ui | latest | High-quality accessible components |
+| State | Zustand | 4.x | Lightweight global state |
+| Routing | React Router | v6 | SPA navigation |
+| HTTP | Axios | 1.x | API requests with interceptors |
+| Realtime | WebSocket API | native | Streaming chat output |
+| Charts | ECharts | 5.x | Statistical visualizations |
+| Graph Viz | D3.js | 7.x | Knowledge graph rendering |
+| Math | KaTeX | latest | LaTeX formula rendering |
+| Markdown | react-markdown + remark-gfm | latest | Rich markdown content |
+| Syntax Highlight | PrismJS | latest | Code block highlighting |
+
+### Full-Stack Architecture
+
+```mermaid
+flowchart LR
+    subgraph FE["Frontend （前端）"]
+        F1["React 18 + TS"]
+        F2["Vite 5"]
+        F3["Tailwind + shadcn/ui"]
+        F4["Zustand"]
+        F5["ECharts / D3"]
+    end
+
+    subgraph BE["Backend （后端）"]
+        B1["FastAPI"]
+        B2["Uvicorn"]
+        B3["LangGraph"]
+        B4["RAG Pipeline"]
+    end
+
+    subgraph DB["Databases （数据库）"]
+        D1["MongoDB"]
+        D2["PostgreSQL"]
+        D3["Chroma"]
+        D4["Neo4j"]
+    end
+
+    subgraph AI["AI Platform （AI 平台）"]
+        A1["Spark API<br/>星火大模型"]
+        A2["Embedding Models<br/>BGE / Jina"]
+    end
+
+    FE -->|"REST + WS"| BE
+    BE -->|"CRUD"| DB
+    BE -->|"LLM Call"| AI
+```
+
+---
+
+## Project Structure
 
 ```
-frontend/
-├── public/
+frontend/                          # 前端项目根目录
+├── public/                        # 静态资源
 │   ├── favicon.ico
 │   └── logo.svg
 │
 ├── src/
-│   ├── app/                          # 应用入口与全局配置
-│   │   ├── App.tsx                   # 根组件
-│   │   ├── routes.tsx                # 路由配置
-│   │   └── providers.tsx            # 全局 Provider（Zustand、Theme 等）
+│   ├── app/                       # App entry & global config
+│   │   ├── App.tsx                # Root component
+│   │   ├── routes.tsx             # Route definitions
+│   │   └── providers.tsx          # Global providers (Zustand, Theme)
 │   │
-│   ├── pages/                        # 页面级组件（对应路由）
-│   │   ├── Home/                     # 首页（产品介绍 + 快速入口）
-│   │   │   └── index.tsx
-│   │   ├── Login/                    # 登录页
-│   │   │   └── index.tsx
-│   │   ├── Register/                 # 注册页
-│   │   │   └── index.tsx
-│   │   ├── Dashboard/               # 用户仪表盘
-│   │   │   └── index.tsx
-│   │   ├── PaperRead/               # 论文精读页
+│   ├── pages/                     # Page-level components (route-mapped)
+│   │   ├── Home/                  # Landing page
+│   │   ├── Login/
+│   │   ├── Register/
+│   │   ├── Dashboard/             # User dashboard
+│   │   ├── PaperRead/             # Paper deep read
 │   │   │   ├── index.tsx
-│   │   │   ├── SectionNav.tsx        # 章节导航树
-│   │   │   ├── DeepReadReport.tsx    # 精读报告渲染
-│   │   │   ├── CitationCard.tsx      # 引用卡片弹窗
-│   │   │   └── PaperChat.tsx         # 论文追问对话
-│   │   ├── PaperLibrary/            # 论文库
-│   │   │   ├── index.tsx
-│   │   │   ├── PaperCard.tsx         # 论文卡片
-│   │   │   └── PaperFilter.tsx       # 筛选/搜索
-│   │   ├── ResearchDecompose/       # 研究问题拆解页
-│   │   │   ├── index.tsx
-│   │   │   ├── ResearchTree.tsx      # 交互式问题树
-│   │   │   ├── TreeNodeDetail.tsx    # 节点详情抽屉
-│   │   │   └── FeasibilityBadge.tsx   # 可行性标签
-│   │   ├── ExperimentRoadmap/       # 实验路线生成页
-│   │   │   ├── index.tsx
-│   │   │   ├── Timeline.tsx          # 步骤时间线
-│   │   │   ├── BaselineCard.tsx       # Baseline 对比卡片
-│   │   │   ├── DatasetPanel.tsx       # 数据集面板
-│   │   │   └── ToolChainList.tsx     # 工具链推荐
-│   │   ├── CodeReproduce/           # 代码复现辅助页
-│   │   │   ├── index.tsx
-│   │   │   ├── RepoInfoCard.tsx       # 仓库信息
-│   │   │   ├── FileTree.tsx           # 文件树
-│   │   │   ├── DependencyList.tsx      # 依赖列表
-│   │   │   ├── ReproductionChecklist.tsx  # 复现步骤清单
-│   │   │   └── ErrorDiagnosis.tsx     # 错误诊断对话
-│   │   ├── ResultAnalyze/           # 结果分析页
-│   │   │   ├── index.tsx
-│   │   │   ├── DataUploader.tsx       # 拖拽上传
-│   │   │   ├── ChartGallery.tsx       # 图表画廊
-│   │   │   ├── StatsSummary.tsx       # 统计摘要
-│   │   │   ├── AnalysisEditor.tsx      # 分析文本编辑器
-│   │   │   └── WritingSuggestion.tsx   # 论文写作建议
-│   │   ├── KnowledgeGraph/           # 知识图谱探索页
-│   │   │   ├── index.tsx
-│   │   │   └── GraphCanvas.tsx         # D3.js 图谱画布
-│   │   └── Profile/                  # 个人中心
-│   │       └── index.tsx
+│   │   │   ├── SectionNav.tsx     # Chapter navigation tree
+│   │   │   ├── DeepReadReport.tsx # Report renderer
+│   │   │   ├── CitationCard.tsx   # Citation popup
+│   │   │   └── PaperChat.tsx      # Follow-up chat
+│   │   ├── PaperLibrary/          # Paper collection
+│   │   ├── ResearchDecompose/     # Research question tree
+│   │   │   ├── ResearchTree.tsx   # Interactive tree
+│   │   │   ├── TreeNodeDetail.tsx # Node detail drawer
+│   │   │   └── FeasibilityBadge.tsx
+│   │   ├── ExperimentRoadmap/     # Experiment planner
+│   │   │   ├── Timeline.tsx       # Gantt-style timeline
+│   │   │   ├── BaselineCard.tsx
+│   │   │   ├── DatasetPanel.tsx
+│   │   │   └── ToolChainList.tsx
+│   │   ├── CodeReproduce/         # Code reproduction
+│   │   │   ├── RepoInfoCard.tsx
+│   │   │   ├── FileTree.tsx
+│   │   │   ├── DependencyList.tsx
+│   │   │   ├── ReproductionChecklist.tsx
+│   │   │   └── ErrorDiagnosis.tsx
+│   │   ├── ResultAnalyze/         # Result analysis
+│   │   │   ├── DataUploader.tsx   # Drag & drop upload
+│   │   │   ├── ChartGallery.tsx   # Auto chart gallery
+│   │   │   ├── StatsSummary.tsx   # Statistical summary
+│   │   │   ├── AnalysisEditor.tsx # AI text editor
+│   │   │   └── WritingSuggestion.tsx
+│   │   ├── KnowledgeGraph/        # Knowledge graph explorer
+│   │   │   └── GraphCanvas.tsx    # D3.js graph canvas
+│   │   └── Profile/
 │   │
-│   ├── components/                   # 可复用 UI 组件
-│   │   ├── ui/                       # 基础 UI 组件（shadcn/ui 封装）
-│   │   │   ├── Button.tsx
-│   │   │   ├── Card.tsx
-│   │   │   ├── Input.tsx
-│   │   │   ├── Dialog.tsx
-│   │   │   ├── Drawer.tsx
-│   │   │   ├── Tabs.tsx
-│   │   │   ├── Badge.tsx
-│   │   │   ├── Tooltip.tsx
-│   │   │   ├── Skeleton.tsx
-│   │   │   └── ScrollArea.tsx
-│   │   ├── layout/                   # 布局组件
-│   │   │   ├── AppLayout.tsx          # 主布局（Header + Sidebar + Content）
-│   │   │   ├── Header.tsx              # 顶部导航栏
-│   │   │   ├── Sidebar.tsx            # 侧边栏
-│   │   │   ├── Footer.tsx
-│   │   │   └── MobileNav.tsx           # 移动端导航
-│   │   ├── chat/                     # 对话相关组件
-│   │   │   ├── ChatBubble.tsx         # 聊天气泡
-│   │   │   ├── ChatInput.tsx          # 输入框
-│   │   │   ├── ChatSidebar.tsx        # 会话列表侧边栏
-│   │   │   ├── MessageList.tsx        # 消息列表
-│   │   │   └── StreamingText.tsx       # 流式文本渲染
-│   │   ├── markdown/                 # Markdown 渲染组件
+│   ├── components/                # Reusable UI components
+│   │   ├── ui/                    # Base UI (shadcn/ui wrappers)
+│   │   ├── layout/                # Layout components
+│   │   │   ├── AppLayout.tsx      # Main layout (Header + Sidebar + Content)
+│   │   │   ├── Header.tsx
+│   │   │   ├── Sidebar.tsx
+│   │   │   └── MobileNav.tsx
+│   │   ├── chat/                  # Chat components
+│   │   │   ├── ChatBubble.tsx
+│   │   │   ├── ChatInput.tsx
+│   │   │   ├── ChatSidebar.tsx
+│   │   │   ├── MessageList.tsx
+│   │   │   └── StreamingText.tsx
+│   │   ├── markdown/              # Markdown rendering
 │   │   │   ├── MarkdownRenderer.tsx
-│   │   │   ├── CodeBlock.tsx          # 代码块（带高亮 + 复制）
-│   │   │   └── LaTeXBlock.tsx         # LaTeX 公式渲染
-│   │   ├── chart/                    # 图表组件
+│   │   │   ├── CodeBlock.tsx      # Code block with highlight + copy
+│   │   │   └── LaTeXBlock.tsx     # LaTeX formula renderer
+│   │   ├── chart/                 # Chart components
 │   │   │   ├── BarChart.tsx
 │   │   │   ├── LineChart.tsx
 │   │   │   ├── BoxPlotChart.tsx
 │   │   │   ├── HeatmapChart.tsx
 │   │   │   ├── RadarChart.tsx
-│   │   │   └── ChartWrapper.tsx       # ECharts 通用包装
-│   │   └── common/                   # 通用业务组件
+│   │   │   └── ChartWrapper.tsx   # ECharts universal wrapper
+│   │   └── common/                # Common business components
 │   │       ├── LoadingSpinner.tsx
 │   │       ├── EmptyState.tsx
 │   │       ├── ErrorBoundary.tsx
@@ -264,57 +492,57 @@ frontend/
 │   │       ├── SearchBar.tsx
 │   │       └── Pagination.tsx
 │   │
-│   ├── hooks/                        # 自定义 React Hooks
-│   │   ├── useAuth.ts                # 用户认证状态
-│   │   ├── useWebSocket.ts           # WebSocket 连接管理
-│   │   ├── useChat.ts               # 对话逻辑
-│   │   ├── usePaperRead.ts          # 论文精读流程
-│   │   ├── useResearchTree.ts       # 问题树交互
-│   │   ├── useExperiment.ts         # 实验方案管理
-│   │   ├── useCodeAnalysis.ts       # 代码分析
-│   │   ├── useResultAnalysis.ts     # 结果分析
-│   │   ├── useFileUpload.ts         # 文件上传
-│   │   └── useDebounce.ts           # 防抖
+│   ├── hooks/                     # Custom React Hooks
+│   │   ├── useAuth.ts
+│   │   ├── useWebSocket.ts        # WebSocket connection management
+│   │   ├── useChat.ts
+│   │   ├── usePaperRead.ts
+│   │   ├── useResearchTree.ts
+│   │   ├── useExperiment.ts
+│   │   ├── useCodeAnalysis.ts
+│   │   ├── useResultAnalysis.ts
+│   │   ├── useFileUpload.ts
+│   │   └── useDebounce.ts
 │   │
-│   ├── services/                     # API 服务层
-│   │   ├── api.ts                   # Axios 实例配置（拦截器、baseURL）
-│   │   ├── auth.service.ts          # 登录/注册/登出
-│   │   ├── paper.service.ts         # 论文上传/精读/追问
-│   │   ├── research.service.ts      # 研究问题拆解
-│   │   ├── experiment.service.ts    # 实验方案生成
-│   │   ├── code.service.ts          # 代码复现辅助
-│   │   ├── result.service.ts        # 结果分析
-│   │   ├── kg.service.ts           # 知识图谱查询
-│   │   └── user.service.ts          # 用户信息/历史记录
+│   ├── services/                  # API service layer
+│   │   ├── api.ts                 # Axios instance (interceptors, baseURL)
+│   │   ├── auth.service.ts
+│   │   ├── paper.service.ts
+│   │   ├── research.service.ts
+│   │   ├── experiment.service.ts
+│   │   ├── code.service.ts
+│   │   ├── result.service.ts
+│   │   ├── kg.service.ts          # Knowledge graph queries
+│   │   └── user.service.ts
 │   │
-│   ├── store/                        # Zustand 状态管理
-│   │   ├── authStore.ts             # 用户认证状态
-│   │   ├── chatStore.ts             # 对话状态
-│   │   ├── paperStore.ts            # 论文相关状态
-│   │   └── uiStore.ts               # UI 状态（主题、侧边栏等）
+│   ├── store/                     # Zustand stores
+│   │   ├── authStore.ts
+│   │   ├── chatStore.ts
+│   │   ├── paperStore.ts
+│   │   └── uiStore.ts
 │   │
-│   ├── types/                        # TypeScript 类型定义
-│   │   ├── api.ts                   # API 请求/响应类型
-│   │   ├── paper.ts                 # 论文相关类型
-│   │   ├── research.ts             # 研究问题相关类型
-│   │   ├── experiment.ts            # 实验方案相关类型
-│   │   ├── code.ts                  # 代码分析相关类型
-│   │   ├── result.ts               # 结果分析相关类型
-│   │   ├── chat.ts                 # 对话相关类型
-│   │   └── user.ts                 # 用户相关类型
+│   ├── types/                     # TypeScript type definitions
+│   │   ├── api.ts
+│   │   ├── paper.ts
+│   │   ├── research.ts
+│   │   ├── experiment.ts
+│   │   ├── code.ts
+│   │   ├── result.ts
+│   │   ├── chat.ts
+│   │   └── user.ts
 │   │
-│   ├── utils/                        # 工具函数
-│   │   ├── format.ts               # 格式化工具（日期、数字等）
-│   │   ├── validators.ts           # 表单验证
-│   │   ├── constants.ts            # 常量定义
-│   │   └── helpers.ts             # 通用辅助函数
+│   ├── utils/                     # Utility functions
+│   │   ├── format.ts              # Date / number formatting
+│   │   ├── validators.ts          # Form validation
+│   │   ├── constants.ts           # Constants
+│   │   └── helpers.ts
 │   │
-│   ├── styles/                       # 全局样式
-│   │   ├── globals.css             # 全局 CSS 变量 + Tailwind 入口
-│   │   ├── themes.css              # 主题变量（亮色/暗色）
-│   │   └── animations.css          # 动画定义
+│   ├── styles/                    # Global styles
+│   │   ├── globals.css            # CSS variables + Tailwind entry
+│   │   ├── themes.css             # Theme variables (light / dark)
+│   │   └── animations.css         # Animation definitions
 │   │
-│   └── assets/                       # 静态资源
+│   └── assets/                    # Static assets
 │       ├── images/
 │       ├── icons/
 │       └── fonts/
@@ -326,8 +554,8 @@ frontend/
 ├── vite.config.ts
 ├── tailwind.config.ts
 ├── postcss.config.js
-├── .env.local                        # 环境变量（不提交到 Git）
-├── .env.example                      # 环境变量示例（提交到 Git）
+├── .env.local                     # Env vars (DO NOT commit)
+├── .env.example                   # Env vars template (commit this)
 ├── .eslintrc.cjs
 ├── .prettierrc
 └── README.md
@@ -335,168 +563,326 @@ frontend/
 
 ---
 
-## 页面路由
+## Database Design
 
-```
-/                       → 首页（产品介绍 + 快速入口）
-/login                  → 登录页
-/register               → 注册页
-/dashboard              → 用户仪表盘（最近会话、收藏论文、学习进度）
-/paper/read             → 论文精读页（上传/选择论文 → 查看报告 → 对话）
-/paper/library          → 论文库（浏览、搜索、筛选、收藏）
-/research/decompose     → 研究问题拆解页（输入方向 → 查看问题树）
-/experiment/roadmap     → 实验路线生成页（选择问题 → 查看方案）
-/code/reproduce         → 代码复现辅助页（输入仓库 → 查看指南）
-/result/analyze         → 结果分析页（上传数据 → 查看图表 + 分析）
-/kg/explore             → 知识图谱探索页（可视化浏览概念关系）
-/profile                → 个人中心（历史记录、设置）
+### Entity Relationship Diagram
+
+```mermaid
+erDiagram
+    AUTH_USERS ||--o{ PROFILES : has
+    AUTH_USERS ||--o{ CONVERSATIONS : creates
+    AGENTS ||--o{ CONVERSATIONS : used_by
+    CONVERSATIONS ||--o{ MESSAGES : contains
+
+    AUTH_USERS {
+        uuid id PK
+        text email
+    }
+
+    PROFILES {
+        uuid id PK
+        uuid user_id FK
+        text username
+        text avatar_url
+        text role
+        timestamptz created_at
+    }
+
+    AGENTS {
+        uuid id PK
+        text name
+        text description
+        text system_prompt
+        text category
+        boolean is_public
+        timestamptz created_at
+    }
+
+    CONVERSATIONS {
+        uuid id PK
+        uuid user_id FK
+        uuid agent_id FK
+        text title
+        text module
+        timestamptz created_at
+        timestamptz updated_at
+    }
+
+    MESSAGES {
+        uuid id PK
+        uuid conversation_id FK
+        uuid user_id FK
+        text role
+        text content
+        jsonb citations
+        timestamptz created_at
+    }
 ```
 
-### 路由守卫规则
+### MongoDB Document Schemas
 
-```
-公开路由：/, /login, /register
-需登录路由：/dashboard, /paper/*, /research/*, /experiment/*, /code/*, /result/*, /kg/*, /profile
+```typescript
+// Paper Document
+interface Paper {
+  paper_id: string;           // se-{venue}-{year}-{seq}
+  title: string;
+  authors: string[];
+  venue: string;              // ICSE / FSE / ASE / TSE / arXiv
+  year: number;
+  doi?: string;
+  abstract: string;
+  keywords: string[];
+  sections: Array<{
+    heading: string;
+    text: string;
+    embedding_id: string;
+    start_page: number;
+  }>;
+  contributions: string[];
+  github_url?: string;
+  citation_count: number;
+  quality_score: number;
+}
+
+// Session Document
+interface Session {
+  session_id: string;
+  user_id: string;
+  module: 'paper_read' | 'rq_decomp' | 'experiment' | 'code' | 'result';
+  title: string;
+  messages: Array<{
+    role: 'user' | 'assistant' | 'system';
+    content: string;
+    citations?: Array<{
+      source_id: string;
+      source_type: 'paper' | 'textbook' | 'code' | 'kg';
+      snippet: string;
+    }>;
+    timestamp: Date;
+  }>;
+  context_papers: string[];
+}
 ```
 
-未登录用户访问需登录路由 → 自动重定向到 `/login`
+### PostgreSQL Structured Tables
+
+```sql
+-- Datasets table
+CREATE TABLE datasets (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    language VARCHAR(50),
+    project_count INT,
+    bug_count INT,
+    source_url TEXT,
+    description TEXT,
+    common_tasks TEXT[],
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+-- Metrics table
+CREATE TABLE metrics (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    full_name VARCHAR(200),
+    formula TEXT,
+    description TEXT,
+    applicable_tasks TEXT[],
+    common_values JSONB
+);
+
+-- Experiment templates
+CREATE TABLE experiment_templates (
+    id SERIAL PRIMARY KEY,
+    task_type VARCHAR(100),
+    template_name VARCHAR(200),
+    steps JSONB,
+    recommended_baselines TEXT[],
+    recommended_datasets INT[],
+    recommended_metrics INT[]
+);
+```
 
 ---
 
-## 核心组件设计
+## Component Architecture
 
-### PaperReader 组件（论文精读）
+### Component Hierarchy
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│  Header: [论文标题] [会议/年份标签] [收藏] [导出]            │
-├──────────┬──────────────────────────┬───────────────────────┤
-│ 章节导航  │  精读报告主体             │  知识图谱关联          │
-│          │                          │                       │
-│ 1. 背景   │  ## 研究背景与动机        │  相关概念节点：         │
-│ 2. 核心问题│  ...内容...[1][2]        │  ● 自动程序修复        │
-│ 3. 方法   │                          │    └─ ● 生成验证        │
-│ 4. 实验   │  ## 核心研究问题          │    └─ ● 语义分析        │
-│ 5. 结果   │  ...内容...               │  ● 缺陷预测            │
-│ 6. 局限性  │                          │                       │
-│ 7. 启发   │  [引用卡片弹窗]           │  [点击节点查看详情]     │
-│          │                          │                       │
-├──────────┴──────────────────────────┴───────────────────────┤
-│  对话输入区：[输入追问...] [发送] [推荐问题 1] [推荐问题 2]   │
-└─────────────────────────────────────────────────────────────┘
-```
+```mermaid
+flowchart TD
+    App["<App />"] --> Router["<BrowserRouter />"]
+    Router --> AppLayout["<AppLayout />"]
 
-### ResearchTree 组件（研究问题拆解）
+    AppLayout --> Header["<Header />"]
+    AppLayout --> Sidebar["<Sidebar />"]
+    AppLayout --> Main["<main> Content </main>"]
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│  输入区：[请输入研究方向，如"代码自动生成"]  [开始分析]       │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  🟢 核心问题 RQ1：如何提升大模型在代码缺陷修复中的准确率？      │
-│  │                                                          │
-│  ├─ 🟢 RQ1.1：哪种 prompting 策略更有效？                    │
-│  │   └─ 数据集: Defects4J | 预期贡献: 方法创新              │
-│  │                                                          │
-│  ├─ 🟡 RQ1.2：如何结合静态分析信息增强修复定位？              │
-│  │   └─ 数据集: Bugs.jar | 预期贡献: 工具集成               │
-│  │                                                          │
-│  └─ 🔴 RQ1.3：修复结果的可解释性如何量化评估？               │
-│      └─ 挑战: 缺乏统一评估标准 | 预期贡献: 评估框架          │
-│                                                             │
-│  [收藏到研究计划]  [跳转论文精读]  [生成实验方案]             │
-└─────────────────────────────────────────────────────────────┘
-```
+    Main --> Home["<Home />"]
+    Main --> Login["<Login />"]
+    Main --> Dashboard["<Dashboard />"]
+    Main --> PaperRead["<PaperRead />"]
+    Main --> Research["<ResearchDecompose />"]
+    Main --> Experiment["<ExperimentRoadmap />"]
+    Main --> Code["<CodeReproduce />"]
+    Main --> Result["<ResultAnalyze />"]
+    Main --> KG["<KnowledgeGraph />"]
+    Main --> Profile["<Profile />"]
 
-### ExperimentPlanner 组件（实验路线）
+    PaperRead --> SectionNav["<SectionNav />"]
+    PaperRead --> DeepRead["<DeepReadReport />"]
+    PaperRead --> KgPanel["<KGPanel />"]
+    PaperRead --> PaperChat["<PaperChat />"]
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│  实验方案：基于大模型的代码缺陷修复                             │
-├─────────────────────────────────────────────────────────────┤
-│  📋 实验目标                                                 │
-│  验证 CoT prompting 策略对代码缺陷修复准确率的影响              │
-├─────────────────────────────────────────────────────────────┤
-│  📅 步骤时间线                                               │
-│  ├─ Step 1: 数据准备（2天）████░░░░  [详情]                  │
-│  ├─ Step 2: Baseline 复现（5天）░░░░░░░░  [详情]            │
-│  ├─ Step 3: 方法实现（7天）░░░░░░░░░░  [详情]                │
-│  └─ Step 4: 评估与对比（3天）░░░░░░░░  [详情]                │
-├─────────────────────────────────────────────────────────────┤
-│  ⚔️ 推荐 Baseline          │  📊 数据集        │  🛠️ 工具链  │
-│  ┌─────────────────┐      │  ┌──────────────┐ │  ┌─────────┐ │
-│  │ CoCoNut (ICSE'20)│     │  │ Defects4J    │ │  │ PyTorch │ │
-│  │ ★ 150 GitHub    │      │  │ 835 bugs     │ │  │ HF      │ │
-│  │ [代码] [论文]   │      │  │ [下载]       │ │  │ Docker  │ │
-│  └─────────────────┘      │  └──────────────┘ │  └─────────┘ │
-│  ┌─────────────────┐      │                    │              │
-│  │ CURE (ICSE'21)   │     │  ┌──────────────┐ │              │
-│  │ ★ 89 GitHub     │      │  │ QuixBugs     │ │              │
-│  │ [代码] [论文]   │      │  │ 160 bugs     │ │              │
-│  └─────────────────┘      │  └──────────────┘ │              │
-├──────────────────────────┴────────────────────┴──────────────┤
-│  [导出 Markdown]  [导出 PDF]  [保存到我的方案]                   │
-└─────────────────────────────────────────────────────────────┘
-```
+    PaperChat --> ChatBubble["<ChatBubble />"]
+    PaperChat --> ChatInput["<ChatInput />"]
+    PaperChat --> MsgList["<MessageList />"]
+    PaperChat --> StreamText["<StreamingText />"]
 
-### ResultAnalyzer 组件（结果分析）
+    DeepRead --> MarkdownR["<MarkdownRenderer />"]
+    DeepRead --> CitationCard["<CitationCard />"]
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│  📁 数据上传                                                 │
-│  ┌─────────────────────────────────────────┐                │
-│  │     拖拽 CSV / JSON / Excel 到这里       │                │
-│  │            或 [点击选择文件]               │                │
-│  └─────────────────────────────────────────┘                │
-├─────────────────────────────────────────────────────────────┤
-│  📈 图表画廊                                                 │
-│  ┌────────────────┐ ┌────────────────┐                     │
-│  │  柱状图          │ │  箱线图          │                     │
-│  │  (方法对比)      │ │  (分布差异)      │                     │
-│  └────────────────┘ └────────────────┘                     │
-│  ┌────────────────┐ ┌────────────────┐                     │
-│  │  折线图          │ │  热力图          │                     │
-│  │  (参数趋势)      │ │  (敏感性分析)    │                     │
-│  └────────────────┘ └────────────────┘                     │
-├─────────────────────────────────────────────────────────────┤
-│  📊 统计摘要          │  📝 AI 分析文本                        │
-│  均值: 0.85          │  根据实验结果，本文方法在                  │
-│  标准差: 0.05        │  Defects4J 数据集上取得了                 │
-│  95% CI: [0.82, 0.88]│  85% 的准确率，相比 baseline...          │
-│  显著性: p < 0.05    │  [编辑] [重新生成]                       │
-├─────────────────────────────────────────────────────────────┤
-│  [导出图表 PNG]  [导出 SVG]  [导出分析报告 Markdown]           │
-└─────────────────────────────────────────────────────────────┘
+    MarkdownR --> CodeBlock["<CodeBlock />"]
+    MarkdownR --> LaTeXBlock["<LaTeXBlock />"]
+
+    Research --> ResearchTree["<ResearchTree />"]
+    Research --> TreeDetail["<TreeNodeDetail />"]
+    Research --> FeasBadge["<FeasibilityBadge />"]
+
+    Experiment --> Timeline["<Timeline />"]
+    Experiment --> BaselineCard["<BaselineCard />"]
+    Experiment --> DatasetPanel["<DatasetPanel />"]
+    Experiment --> ToolChain["<ToolChainList />"]
+
+    Result --> Uploader["<DataUploader />"]
+    Result --> ChartGallery["<ChartGallery />"]
+    Result --> StatsSummary["<StatsSummary />"]
+    Result --> AnalysisEditor["<AnalysisEditor />"]
+
+    ChartGallery --> BarChart["<BarChart />"]
+    ChartGallery --> LineChart["<LineChart />"]
+    ChartGallery --> BoxPlot["<BoxPlotChart />"]
+    ChartGallery --> Heatmap["<HeatmapChart />"]
+    ChartGallery --> RadarChart["<RadarChart />"]
+    ChartGallery --> ChartWrap["<ChartWrapper />"]
+
+    Code --> RepoInfo["<RepoInfoCard />"]
+    Code --> FileTree["<FileTree />"]
+    Code --> DepList["<DependencyList />"]
+    Code --> Checklist["<ReproductionChecklist />"]
+    Code --> ErrDiagnosis["<ErrorDiagnosis />"]
+
+    KG --> GraphCanvas["<GraphCanvas />"]
 ```
 
 ---
 
-## UI 设计规范
+## API Interaction Flow
 
-### 设计原则
+### REST API Endpoints
 
-- **简洁专业**：面向学术用户，界面清爽、信息密度适中
-- **结构优先**：所有输出内容结构化呈现（表格、树形、时间线）
-- **溯源可见**：引用标注贯穿所有模块，点击即可查看来源
-- **渐进披露**：复杂信息分层展示，默认折叠，按需展开
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/v1/auth/login` | User login |
+| `POST` | `/api/v1/auth/register` | User registration |
+| `GET` | `/api/v1/users/me` | Get current user |
+| `POST` | `/api/v1/papers/upload` | Upload PDF (multipart) |
+| `GET` | `/api/v1/papers/{id}/deep-read` | Get deep-read report |
+| `POST` | `/api/v1/papers/{id}/chat` | Paper follow-up chat |
+| `POST` | `/api/v1/research/decompose` | Research question decomposition |
+| `POST` | `/api/v1/experiments/generate-roadmap` | Generate experiment roadmap |
+| `POST` | `/api/v1/code/analyze-repo` | Analyze GitHub repo |
+| `POST` | `/api/v1/code/diagnose-error` | Error diagnosis |
+| `POST` | `/api/v1/results/analyze` | Analyze result files (multipart) |
+| `GET` | `/api/v1/kg/concepts` | Get KG concept nodes |
+| `GET` | `/api/v1/kg/concepts/{id}/relations` | Get concept relations |
 
-### 配色方案
+### WebSocket Streaming Protocol
+
+```mermaid
+sequenceDiagram
+    participant F as Frontend
+    participant WS as WebSocket
+    participant B as Backend
+    participant LLM as Spark API
+
+    F->>WS: Connect /ws/chat/{session_id}
+    WS-->>F: Connection established
+    F->>WS: Send message
+    WS->>B: Forward message
+    B->>LLM: Request generation
+    LLM-->>B: Chunk 1
+    B-->>WS: {type: "stream_chunk", content: "..."}
+    WS-->>F: Render chunk
+    LLM-->>B: Chunk 2
+    B-->>WS: {type: "stream_chunk", content: "..."}
+    WS-->>F: Append chunk
+    LLM-->>B: Chunk N
+    B-->>WS: {type: "stream_chunk", content: "..."}
+    B-->>WS: {type: "citation", citation: {...}}
+    WS-->>F: Attach citation
+    B-->>WS: {type: "stream_end"}
+    WS-->>F: Finalize message
+```
+
+### Axios Configuration
+
+```typescript
+// services/api.ts
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL, // http://localhost:8000
+  timeout: 30000,
+  headers: { 'Content-Type': 'application/json' },
+});
+
+// Request interceptor — auto-attach JWT
+api.interceptors.request.use((config) => {
+  const token = useAuthStore.getState().token;
+  if (token) config.headers.Authorization = `Bearer ${token}`;
+  return config;
+});
+
+// Response interceptor — unified error handling
+api.interceptors.response.use(
+  (res) => res,
+  (err) => {
+    if (err.response?.status === 401) {
+      useAuthStore.getState().logout();
+      window.location.href = '/login';
+    }
+    return Promise.reject(err);
+  }
+);
+```
+
+---
+
+## UI Design System
+
+### Design Principles
+
+- **Clean & Professional**: Academic-oriented interface with moderate information density
+- **Structure First**: All outputs rendered structurally (tables, trees, timelines) （结构化优先）
+- **Traceability**: Every generated claim carries a clickable citation （溯源可见）
+- **Progressive Disclosure**: Complex info layered — collapsed by default, expanded on demand （渐进披露）
+
+### Color Palette
 
 ```css
 :root {
-  /* 主色调 */
-  --primary: #2563eb;        /* 蓝色 — 主按钮、链接、活跃状态 */
+  /* Primary */
+  --primary: #2563eb;
   --primary-hover: #1d4ed8;
   --primary-light: #dbeafe;
 
-  /* 辅助色 */
-  --accent: #0ea5e9;         /* 青色 — 强调元素、标签 */
-  --success: #10b981;        /* 绿色 — 成功、可行性高 */
-  --warning: #f59e0b;        /* 黄色 — 警告、可行性中 */
-  --danger: #ef4444;         /* 红色 — 错误、可行性低 */
-  --purple: #8b5cf6;         /* 紫色 — 知识图谱、AI 相关 */
+  /* Semantic */
+  --accent: #0ea5e9;      /* Cyan — emphasis elements */
+  --success: #10b981;     /* Green — high feasibility / success */
+  --warning: #f59e0b;     /* Yellow — medium feasibility / warning */
+  --danger: #ef4444;      /* Red — low feasibility / error */
+  --purple: #8b5cf6;      /* Purple — knowledge graph / AI */
 
-  /* 中性色 */
+  /* Neutral */
   --bg: #ffffff;
   --bg-secondary: #f8fafc;
   --border: #e2e8f0;
@@ -506,36 +892,67 @@ frontend/
 }
 ```
 
-### 字体
+### Typography
 
-- 中文：`"PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif`
-- 英文：`Inter` 或 `SF Pro`
-- 代码：`"JetBrains Mono", "Consolas", "Courier New", monospace`
+| Use Case | Font Stack |
+|----------|-----------|
+| Chinese | `"PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif` |
+| English | `Inter, "SF Pro Display", system-ui, sans-serif` |
+| Code | `"JetBrains Mono", "Consolas", "Courier New", monospace` |
 
-### 间距系统
+### Spacing System (4px grid)
 
-基于 4px 网格：
-- 组件内间距：`4px / 8px / 12px / 16px`
-- 组件间间距：`16px / 24px / 32px`
-- 区块间间距：`48px / 64px`
+| Token | Value | Usage |
+|-------|-------|-------|
+| `space-1` | 4px | Inline element padding |
+| `space-2` | 8px | Tight component gaps |
+| `space-3` | 12px | Standard internal padding |
+| `space-4` | 16px | Component internal spacing |
+| `space-6` | 24px | Component gaps |
+| `space-8` | 32px | Section gaps |
+| `space-12` | 48px | Major section separations |
+| `space-16` | 64px | Page-level spacing |
 
-### 响应式断点
+### Responsive Breakpoints
 
 ```
-Mobile:  < 640px   (单列布局，侧边栏折叠为抽屉)
-Tablet:  640-1024px (双列布局)
-Desktop: > 1024px   (完整三列布局)
+Mobile:  < 640px    → Single column, sidebar as drawer
+Tablet:  640-1024px → Two-column layout
+Desktop: > 1024px   → Full three-column layout
 ```
 
 ---
 
-## 状态管理
+## State Management
 
-使用 Zustand 进行全局状态管理，按功能模块拆分 store。
+### Zustand Store Architecture
 
-### authStore — 用户认证
+```mermaid
+flowchart TD
+    subgraph Stores["Zustand Stores"]
+        Auth["authStore<br/>用户认证"]
+        Chat["chatStore<br/>对话状态"]
+        Paper["paperStore<br/>论文状态"]
+        UI["uiStore<br/>UI 状态"]
+    end
+
+    subgraph Components["React Components"]
+        C1["<Header />"]
+        C2["<ChatBubble />"]
+        C3["<DeepReadReport />"]
+        C4["<Sidebar />"]
+    end
+
+    Auth --> C1
+    Chat --> C2
+    Paper --> C3
+    UI --> C4
+```
+
+### Store Interfaces
 
 ```typescript
+// authStore — 用户认证状态
 interface AuthState {
   user: User | null;
   token: string | null;
@@ -545,11 +962,8 @@ interface AuthState {
   logout: () => void;
   checkAuth: () => Promise<void>;
 }
-```
 
-### chatStore — 对话状态
-
-```typescript
+// chatStore — 对话状态
 interface ChatState {
   sessions: ChatSession[];
   currentSessionId: string | null;
@@ -560,11 +974,8 @@ interface ChatState {
   loadHistory: () => Promise<void>;
   clearCurrentSession: () => void;
 }
-```
 
-### paperStore — 论文状态
-
-```typescript
+// paperStore — 论文状态
 interface PaperState {
   currentPaper: Paper | null;
   deepReadReport: DeepReadReport | null;
@@ -573,11 +984,8 @@ interface PaperState {
   getDeepRead: (paperId: string) => Promise<DeepReadReport>;
   clearPaper: () => void;
 }
-```
 
-### uiStore — UI 状态
-
-```typescript
+// uiStore — UI 状态
 interface UIState {
   sidebarOpen: boolean;
   theme: 'light' | 'dark';
@@ -588,114 +996,127 @@ interface UIState {
 
 ---
 
-## API 对接规范
+## API Specification
 
-### 基础配置
+### WebSocket Message Protocol
 
 ```typescript
-// services/api.ts
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL, // http://localhost:8000
-  timeout: 30000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
-// 请求拦截器 — 自动附加 JWT Token
-api.interceptors.request.use((config) => {
-  const token = useAuthStore.getState().token;
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
-
-// 响应拦截器 — 统一错误处理
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      useAuthStore.getState().logout();
-      window.location.href = '/login';
-    }
-    return Promise.reject(error);
-  }
-);
+// Message types for streaming chat
+interface WSMessage {
+  type: 'stream_chunk' | 'stream_end' | 'citation' | 'error';
+  content?: string;
+  citation?: {
+    source_id: string;
+    source_type: 'paper' | 'textbook' | 'code' | 'kg';
+    snippet: string;
+    url?: string;
+  };
+}
 ```
 
-### 接口列表
-
-| 方法 | 端点 | 说明 |
-|------|------|------|
-| `POST` | `/api/v1/auth/login` | 用户登录 |
-| `POST` | `/api/v1/auth/register` | 用户注册 |
-| `GET` | `/api/v1/users/me` | 获取当前用户信息 |
-| `POST` | `/api/v1/papers/upload` | 上传 PDF 论文（multipart） |
-| `GET` | `/api/v1/papers/{id}/deep-read` | 获取精读报告 |
-| `POST` | `/api/v1/papers/{id}/chat` | 论文追问对话 |
-| `POST` | `/api/v1/research/decompose` | 研究问题拆解 |
-| `POST` | `/api/v1/experiments/generate-roadmap` | 生成实验方案 |
-| `POST` | `/api/v1/code/analyze-repo` | 分析 GitHub 仓库 |
-| `POST` | `/api/v1/code/diagnose-error` | 错误诊断 |
-| `POST` | `/api/v1/results/analyze` | 分析实验结果（multipart） |
-| `GET` | `/api/v1/kg/concepts` | 获取知识图谱概念节点 |
-| `GET` | `/api/v1/kg/concepts/{id}/relations` | 获取概念关联关系 |
-
-### WebSocket 流式输出
+### Key API Response Types
 
 ```typescript
-// hooks/useWebSocket.ts
-const ws = new WebSocket(`ws://${host}/ws/chat/${sessionId}`);
+// Deep Read Report
+interface DeepReadReport {
+  paper_id: string;
+  sections: Array<{
+    heading: string;
+    content: string;
+    citations: Array<{ source: string; text: string }>;
+  }>;
+  knowledge_graph_nodes: string[];
+}
 
-ws.onmessage = (event) => {
-  const data = JSON.parse(event.data);
-  switch (data.type) {
-    case 'stream_chunk':   // 流式文本片段
-      appendToCurrentMessage(data.content);
-      break;
-    case 'stream_end':      // 生成完毕
-      finalizeMessage();
-      break;
-    case 'citation':        // 引用信息
-      attachCitation(data.citation);
-      break;
-    case 'error':           // 错误
-      showError(data.content);
-      break;
-  }
-};
+// Research Question Tree
+interface ResearchTree {
+  core_question: string;
+  sub_questions: Array<{
+    id: string;
+    question: string;
+    feasibility: 'high' | 'medium' | 'low';
+    datasets: string[];
+    papers: string[];
+  }>;
+  related_work: Array<{ name: string; paper_id: string }>;
+}
+
+// Experiment Roadmap
+interface ExperimentRoadmap {
+  objective: string;
+  steps: Array<{
+    step: number;
+    task: string;
+    details: string;
+    estimated_days: number;
+  }>;
+  baselines: Array<{
+    name: string;
+    paper_id: string;
+    github_url: string;
+  }>;
+  datasets: Array<{ name: string; url: string }>;
+  metrics: Array<{ name: string; formula: string }>;
+  tools: Array<{ name: string; purpose: string }>;
+}
+
+// Code Analysis Result
+interface CodeAnalysis {
+  repo_info: { name: string; language: string; stars: number };
+  file_tree: Array<{ path: string; type: 'file' | 'dir' }>;
+  dependencies: Array<{ package: string; version: string }>;
+  key_files: Array<{ path: string; description: string }>;
+  reproduction_guide: Array<{ step: number; command: string; description: string }>;
+  common_issues: Array<{ error: string; solution: string }>;
+}
+
+// Result Analysis
+interface ResultAnalysis {
+  summary_stats: {
+    mean: number;
+    std: number;
+    ci_95: [number, number];
+  };
+  charts: Array<{
+    type: 'bar' | 'line' | 'box' | 'heatmap' | 'radar';
+    title: string;
+    echarts_option: Record<string, any>;
+  }>;
+  analysis_text: string;
+  writing_suggestions: string;
+}
 ```
 
 ---
 
-## 本地开发指南
+## Local Development
 
-### 环境要求
+### Prerequisites
 
 - Node.js >= 18.0
-- npm >= 9.0（或 pnpm >= 8.0）
-- 后端服务运行在 `http://localhost:8000`
+- npm >= 9.0 (or pnpm >= 8.0)
+- Backend service running at `http://localhost:8000`
 
-### 安装步骤
+### Quick Start
 
 ```bash
-# 1. 克隆仓库
+# 1. Clone repository
 git clone https://github.com/Khaliii-6/SciCopilot_The-Fronted-Portion.git
 cd SciCopilot_The-Fronted-Portion
 
-# 2. 安装依赖
+# 2. Install dependencies
 npm install
 
-# 3. 配置环境变量
+# 3. Configure environment
 cp .env.example .env.local
-# 编辑 .env.local 填入实际值
+# Edit .env.local with your values
 
-# 4. 启动开发服务器
+# 4. Start dev server
 npm run dev
+# → http://localhost:5173
 ```
 
-### 环境变量
+### Environment Variables
 
 ```bash
 # .env.local
@@ -703,22 +1124,22 @@ VITE_API_BASE_URL=http://localhost:8000
 VITE_WS_BASE_URL=ws://localhost:8000
 ```
 
-### 可用脚本
+### Available Scripts
 
 ```bash
-npm run dev          # 启动开发服务器（http://localhost:5173）
-npm run build        # 生产构建
-npm run preview      # 预览生产构建
-npm run lint         # ESLint 检查
-npm run format       # Prettier 格式化
-npm run type-check   # TypeScript 类型检查
+npm run dev          # Start dev server (http://localhost:5173)
+npm run build        # Production build
+npm run preview      # Preview production build
+npm run lint         # ESLint check
+npm run format       # Prettier format
+npm run type-check   # TypeScript type check
 ```
 
 ---
 
-## 构建与部署
+## Build & Deploy
 
-### 构建配置
+### Vite Configuration
 
 ```typescript
 // vite.config.ts
@@ -762,51 +1183,75 @@ export default defineConfig({
 });
 ```
 
-### GitHub Pages 部署
+### GitHub Pages Deployment
 
 ```bash
-# 构建后部署到 GitHub Pages
 npm run build
 # Settings → Pages → Branch: main /root
 ```
 
 ---
 
-## 开发里程碑
+## Development Milestones
 
-| 周次 | 里程碑 | 前端具体任务 | 验收标准 |
-|------|--------|-------------|---------|
-| W1 | 项目初始化 | 初始化 React + Vite + TailwindCSS；配置路由；搭建主布局组件 | 首页、登录页、Dashboard 骨架可用 |
-| W2 | 论文库 + 精读 UI | 实现论文上传、论文库列表、精读报告渲染（Markdown + 引用卡片） | 论文可上传、精读报告正确渲染 |
-| W3 | 论文追问 + 知识图谱 | 实现论文追问对话（WebSocket 流式）、知识图谱关联面板、引用溯源弹窗 | 追问实时流式输出、引用可点击查看 |
-| W4 | 研究问题拆解 | 实现交互式问题树组件（D3.js / 自定义树）、节点颜色编码、详情抽屉 | 问题树可折叠/展开、节点可交互 |
-| W5 | 实验路线 | 实现步骤时间线、Baseline 对比卡片、数据集面板、导出功能 | 完整实验方案页面可用 |
-| W6 | 代码复现 | 实现仓库信息卡、文件树、依赖列表、复现清单、错误诊断对话 | 输入仓库地址后完整展示 |
-| W7 | 结果分析 | 实现拖拽上传、ECharts 图表画廊（>=4 种）、统计摘要、分析编辑器 | 上传 CSV 后自动生成图表和分析 |
-| W8 | 集成优化 | 全流程联调、Loading 状态、Error 状态、Empty 状态、响应式适配、性能优化 | 核心流程无阻断 Bug、页面加载 < 2s |
-| W9 | 用户验证 + 提交 | 2+ 真实用户试用、收集反馈、修复问题、录制演示视频 | 用户反馈记录完整、演示视频 <= 3 分钟 |
+| Week | Milestone | Frontend Tasks | Acceptance Criteria |
+|------|-----------|---------------|---------------------|
+| W1 | Project Init | Initialize React + Vite + Tailwind; configure routing; build AppLayout | Home, Login, Dashboard skeleton ready |
+| W2 | Paper Library + Deep Read UI | Paper upload, library list, deep-read report rendering (Markdown + citations) | Papers uploadable; reports render correctly |
+| W3 | Paper Chat + KG Panel | WebSocket streaming chat, knowledge graph side panel, citation popup | Real-time streaming; citations clickable |
+| W4 | Research Decomposition | Interactive tree component (D3.js / custom), node color coding, detail drawer | Tree foldable/expandable; nodes interactive |
+| W5 | Experiment Roadmap | Step timeline, baseline cards, dataset panel, export functionality | Full experiment plan page functional |
+| W6 | Code Reproduction | Repo info card, file tree, dependency list, reproduction checklist, error diagnosis | Repo URL input → full display |
+| W7 | Result Analysis | Drag-drop upload, ECharts gallery (>=4 types), stats summary, analysis editor | CSV upload → auto charts + analysis |
+| W8 | Integration & Polish | End-to-end testing, Loading/Error/Empty states, responsive, performance optimization | No blocking bugs; page load < 2s |
+| W9 | User Validation & Submit | 2+ real users trial, feedback collection, bug fixes, demo video recording | Feedback documented; demo video <= 3min |
+
+### Development Timeline Visualization
+
+```mermaid
+gantt
+    title SciPilot Frontend Development Timeline
+    dateFormat  YYYY-MM-DD
+    section Foundation
+    Project Init           :a1, 2026-07-06, 7d
+    section Core Features
+    Paper Deep Read        :a2, after a1, 14d
+    Research Decomposition :a3, after a2, 7d
+    Experiment Roadmap     :a4, after a3, 7d
+    Code Reproduction      :a5, after a4, 7d
+    Result Analysis        :a6, after a5, 7d
+    section Polish
+    Integration & Testing  :a7, after a6, 7d
+    User Validation        :a8, after a7, 7d
+```
 
 ---
 
-## 团队分工
+## Team Responsibilities
 
-### 前端开发职责
+### Frontend Development Roles
 
-| 负责模块 | 核心工作 |
-|---------|---------|
-| **登录/注册** | 登录页、注册页、认证状态管理 |
-| **Dashboard** | 仪表盘页、最近会话列表、收藏论文、学习进度 |
-| **论文精读** | 论文上传、精读报告渲染（Markdown + LaTeX）、引用卡片、追问对话 |
-| **论文库** | 论文列表、搜索筛选、论文卡片、收藏功能 |
-| **研究问题拆解** | 交互式问题树可视化、节点详情抽屉、可行性标签 |
-| **实验路线** | 步骤时间线、Baseline 卡片、数据集面板、导出功能 |
-| **代码复现** | 仓库信息、文件树、依赖列表、复现清单、错误诊断 |
-| **结果分析** | 数据上传、ECharts 图表、统计摘要、分析编辑器 |
-| **知识图谱** | D3.js 图谱可视化、概念导航、关联关系展示 |
-| **UI 基础设施** | 布局组件、通用 UI 组件、主题系统、响应式适配 |
+| Module | Core Responsibilities |
+|--------|----------------------|
+| **Auth** | Login page, register page, JWT auth flow |
+| **Dashboard** | Dashboard UI, recent sessions, saved papers, progress tracking |
+| **Paper Deep Read** | PDF upload, report renderer (Markdown + LaTeX), citation cards, chat |
+| **Paper Library** | Paper grid/list, search/filter, paper cards, bookmark |
+| **Research Decomposition** | Interactive tree visualization, node detail drawer, feasibility badges |
+| **Experiment Roadmap** | Step timeline, baseline comparison cards, dataset panel, export |
+| **Code Reproduction** | Repo info, file tree, dependency list, checklist, error diagnosis chat |
+| **Result Analysis** | Data upload, ECharts gallery, stats summary, analysis editor |
+| **Knowledge Graph** | D3.js graph visualization, concept navigation, relation display |
+| **UI Infrastructure** | Layout components, base UI kit, theme system, responsive adapter |
 
 ---
 
-> 本 README 基于 SciPilot 详细实现方案编制，所有页面结构、组件设计、技术选型均严格对应实现方案文档。
->
-> **Start small. Build the loop. Then scale the intelligence.**
+<p align="center">
+  <strong>Built with passion for SE researchers worldwide.</strong>
+  <br>
+  <em>为全球软件工程研究者而构建</em>
+</p>
+
+<p align="center">
+  <sub>SciPilot Frontend README · Based on the detailed implementation plan · 2026</sub>
+</p>
