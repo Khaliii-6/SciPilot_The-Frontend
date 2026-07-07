@@ -49,7 +49,7 @@
 
 ## Overview
 
-**SciCopilot** is an AI-powered vertical platform designed for Software Engineering (SE) students and researchers. It addresses five critical pain points in the research pipeline — from literature review to experimental analysis — by providing structured, traceable, and intelligent agent services.
+**SciPilot** is an AI-powered vertical platform designed for Software Engineering (SE) students and researchers. It addresses five critical pain points in the research pipeline — from literature review to experimental analysis — by providing structured, traceable, and intelligent agent services.
 
 > **Target Users** （目标用户）
 > - **Junior Researchers** (Graduate Year 1 / Senior Undergrads): Need to quickly understand research directions, read papers, and find entry points.
@@ -58,7 +58,7 @@
 
 ### Value Proposition
 
-| Pain Point | SciCopilot Solution |
+| Pain Point | SciPilot Solution |
 |-----------|---------------------|
 | Fragmented paper reading | Structured deep-read reports with citation tracing |
 | Vague research directions | Hierarchical research question trees with feasibility scoring |
