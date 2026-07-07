@@ -1,4 +1,4 @@
-<h1 align="center">✨ SciCopilot</h1>
+<h1 align="center">✨ SciPilot</h1>
 
 <p align="center">
   🧠 <strong>AI-Powered Vertical Platform for Software Engineering Research & Learning</strong>
@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/SCICOPILOT-V0.1%20MVP-6B46C1?style=flat-square&labelColor=374151" alt="SciCopilot v0.1 MVP">
+  <img src="https://img.shields.io/badge/SCIPILOT-V0.1%20MVP-6B46C1?style=flat-square&labelColor=374151" alt="SciPilot v0.1 MVP">
   <img src="https://img.shields.io/badge/STATUS-INITIAL%20DEVELOPMENT-F59E0B?style=flat-square&labelColor=374151" alt="Initial Development">
   <img src="https://img.shields.io/badge/LICENSE-MIT-10B981?style=flat-square&labelColor=374151" alt="MIT License">
   <br>
